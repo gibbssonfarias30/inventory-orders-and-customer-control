@@ -24,6 +24,8 @@ public class Product {
 
     private double price;
 
+    private int stock;
+
     @Column(name = "image_url")
     private String imageUrl;
 
