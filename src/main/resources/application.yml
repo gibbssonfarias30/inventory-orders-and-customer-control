@@ -1,0 +1,22 @@
+server:
+  port: 8777
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_order_system?serverTimezone=UTC
+    username: root
+    password: gibb
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show-sql: true
+        ddl-auto: update
+        format_sql: true
+
+  # maximum size for uploading files in our API
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
