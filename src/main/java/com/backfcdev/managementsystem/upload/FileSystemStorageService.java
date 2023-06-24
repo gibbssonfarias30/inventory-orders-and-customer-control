@@ -3,14 +3,13 @@ package com.backfcdev.managementsystem.upload;
 import com.backfcdev.managementsystem.exception.MediaFileNotFoundException;
 import com.backfcdev.managementsystem.exception.StorageException;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -18,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -55,11 +55,11 @@ public class FileSystemStorageService implements StorageService  {
     }
 
     @Override
-    public Stream<Path> loadAll() {
+    public Stream<String> loadAll() {
         try {
-            return Files.walk(this.storageLocation, 1)
-                    .filter(path -> !path.equals(this.storageLocation))
-                    .map(this.storageLocation::relativize);
+            return Files.walk(Paths.get(storageLocation.toUri()), 1)
+                    .filter(path -> !path.equals(Paths.get(storageLocation.toUri())))
+                    .map(path -> path.getFileName().toString());
         } catch (IOException e) {
             throw new StorageException("Could not load the files!");
         }
@@ -86,7 +86,24 @@ public class FileSystemStorageService implements StorageService  {
 
     @Override
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(storageLocation.toFile());
+        File directory = storageLocation.toFile();
+        File[] files = directory.listFiles();
+        if (files != null) Arrays.stream(files)
+                .filter(File::isFile)
+                .filter(file -> !file.delete())
+                .forEach(file -> {
+                    throw new StorageException("Could not delete file: " + file.getName());
+                });
+    }
+
+    @Override
+    public void deleteFile(String filename) {
+        Path filePath = Paths.get(storageLocation.toUri()).resolve(filename);
+        try {
+            Files.delete(filePath);
+        } catch (IOException e) {
+            throw new StorageException("Could not delete file: " + filePath);
+        }
     }
 }
 
