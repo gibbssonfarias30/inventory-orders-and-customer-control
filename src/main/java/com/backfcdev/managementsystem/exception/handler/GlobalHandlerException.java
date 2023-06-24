@@ -2,6 +2,7 @@ package com.backfcdev.managementsystem.exception.handler;
 
 
 
+import com.backfcdev.managementsystem.exception.InsufficientStockException;
 import com.backfcdev.managementsystem.exception.MediaFileNotFoundException;
 import com.backfcdev.managementsystem.exception.ModelNotFoundException;
 import com.backfcdev.managementsystem.exception.StorageException;
@@ -41,6 +42,16 @@ public class GlobalHandlerException {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setTitle("Not Found");
         problemDetail.setType(URI.create("/not-found"));
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(InsufficientStockException.class)
+    ProblemDetail handleInsufficientStockException(InsufficientStockException ex){
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle("Conflict");
+        problemDetail.setDetail("There is not enough stock for this product");
+        problemDetail.setType(URI.create("/conflict"));
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
