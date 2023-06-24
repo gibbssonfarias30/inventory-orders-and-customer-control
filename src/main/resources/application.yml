@@ -6,14 +6,15 @@ spring:
     url: jdbc:mysql://localhost:3306/db_order_system?serverTimezone=UTC
     username: root
     password: gibb
-
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        show-sql: true
-        ddl-auto: update
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
         format_sql: true
+    hibernate:
+      ddl-auto: update
 
   # maximum size for uploading files in our API
   servlet:
