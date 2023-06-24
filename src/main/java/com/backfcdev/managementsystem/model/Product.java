@@ -33,6 +33,9 @@ public class Product {
     @JoinColumn(name="category_id")
     private Category category;
 
+    @Column(name = "sales_quantity")
+    private int salesQuantity;
+
     @CreatedDate
     @Column(name = "created_date")
     private LocalDateTime createdDate;
