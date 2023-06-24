@@ -1,6 +1,8 @@
 package com.backfcdev.managementsystem.service.impl;
 
+import com.backfcdev.managementsystem.exception.ModelNotFoundException;
 import com.backfcdev.managementsystem.model.Product;
+import com.backfcdev.managementsystem.repository.ICategoryRepository;
 import com.backfcdev.managementsystem.repository.IGenericRepository;
 import com.backfcdev.managementsystem.repository.IProductRepository;
 import com.backfcdev.managementsystem.service.IProductService;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class ProductServiceImpl extends CRUDImpl<Product, Integer> implements IProductService {
 
     private final IProductRepository productRepository;
+    private final ICategoryRepository categoryRepository;
+
 
     @Override
     protected IGenericRepository<Product, Integer> repository() {
@@ -27,8 +31,16 @@ public class ProductServiceImpl extends CRUDImpl<Product, Integer> implements IP
 
 
     @Override
-    public Page<Product> findByName(String name, Pageable pageable) {
-        return productRepository.findByNameContainsIgnoreCase(name, pageable);
+    public Product save(Product product) {
+        Product productSaved = Product.builder()
+                .name(product.getName())
+                .price(product.getPrice())
+                .stock(product.getStock())
+                .imageUrl(product.getImageUrl())
+                .category(categoryRepository.findById(product.getCategory().getId())
+                        .orElseThrow(ModelNotFoundException::new))
+                .build();
+        return productRepository.save(productSaved);
     }
 
     @Override
