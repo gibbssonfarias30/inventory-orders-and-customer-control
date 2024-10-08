@@ -1,4 +1,4 @@
-package com.backfcdev.managementsystem.dto;
+package com.backfcdev.managementsystem.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -12,18 +12,19 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class OrderDTO {
+public class OrderResponse {
+
     private Integer id;
 
     @JsonBackReference
-    private ClientDTO client;
+    private ClientResponse clientResponse;
 
     @JsonManagedReference
-    private List<OrderDetailDTO> orderDetails;
+    private List<OrderDetailResponse> orderDetails;
 
     public Double getTotal(){
         return  orderDetails.stream()
-                .mapToDouble(OrderDetailDTO::getSubTotal)
+                .mapToDouble(OrderDetailResponse::getSubTotal)
                 .sum();
     }
 }

@@ -1,4 +1,4 @@
-package com.backfcdev.managementsystem.dto;
+package com.backfcdev.managementsystem.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
@@ -9,17 +9,19 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class OrderDetailDTO {
+public class OrderDetailResponse {
+
     private Integer id;
 
-    private ProductDTO product;
+    @JsonBackReference
+    private ProductResponse product;
 
     private double price;
 
     private int amount;
 
     @JsonBackReference
-    private OrderDTO order;
+    private OrderResponse order;
 
 
     public Double getSubTotal(){
