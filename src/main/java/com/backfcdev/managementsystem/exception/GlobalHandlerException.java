@@ -1,11 +1,7 @@
-package com.backfcdev.managementsystem.exception.handler;
+package com.backfcdev.managementsystem.exception;
 
 
 
-import com.backfcdev.managementsystem.exception.InsufficientStockException;
-import com.backfcdev.managementsystem.exception.MediaFileNotFoundException;
-import com.backfcdev.managementsystem.exception.ModelNotFoundException;
-import com.backfcdev.managementsystem.exception.StorageException;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
