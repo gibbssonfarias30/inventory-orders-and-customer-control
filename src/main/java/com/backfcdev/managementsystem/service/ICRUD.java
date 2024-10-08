@@ -3,13 +3,13 @@ package com.backfcdev.managementsystem.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
-public interface ICRUD<T, ID>{
-    Page<T> findAll(Pageable pageable);
-    List<T> findAll();
-    T save(T t);
-    T findById(ID id);
-    T update(ID id, T t);
+public interface ICRUD<T, RQ, RS, ID> {
+
+    Page<RS> findAll(Pageable pageable);
+    RS findById(ID id);
+    RS save(RQ request);
+    RS update(ID id, RQ request);
     void delete(ID id);
 }
+
