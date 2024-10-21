@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/files")
+@RequestMapping("/files")
 public class FileUploadController {
 
     private final StorageService storageService;
