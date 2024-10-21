@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class OrderMapper implements IMapper<Order, OrderRequest, OrderResponse>{
@@ -36,9 +35,8 @@ public class OrderMapper implements IMapper<Order, OrderRequest, OrderResponse>{
             mapper.map(Order::getOrderDetails, OrderResponse::setOrderDetails);
         });
 
-        modelMapper.typeMap(OrderDetailRequest.class, OrderDetail.class).addMappings(mapper -> {
-            mapper.skip(OrderDetail::setId); // Si tienes un ID en OrderDetail
-        });
+        modelMapper.typeMap(OrderDetailRequest.class, OrderDetail.class)
+                .addMappings(mapper -> mapper.skip(OrderDetail::setId));
     }
 
     @Override
@@ -52,12 +50,11 @@ public class OrderMapper implements IMapper<Order, OrderRequest, OrderResponse>{
     public Order convertToEntity(OrderRequest request) {
         Order order = modelMapper.map(request, Order.class);
 
-        // Mapear los detalles de la orden manualmente
         List<OrderDetail> orderDetails = request.getOrderDetails().stream()
                 .map(orderDetailRequest -> modelMapper.map(orderDetailRequest, OrderDetail.class))
-                .collect(Collectors.toList());
+                .toList();
 
-        order.setOrderDetails(orderDetails);  // Asignar los detalles mapeados a la entidad Order
+        order.setOrderDetails(orderDetails);
         return order;
     }
 
