@@ -32,8 +32,8 @@ public class FileSystemStorageService implements StorageService  {
     public void init() {
         try {
             Files.createDirectories(storageLocation);
-        } catch (IOException ex) {
-            throw new StorageException("Failed to create file store: " + storageLocation);
+        } catch (IOException e) {
+            throw new StorageException("Failed to create file store: " + storageLocation, e);
         }
     }
 
@@ -48,8 +48,8 @@ public class FileSystemStorageService implements StorageService  {
             InputStream inputStream = file.getInputStream();
             Files.copy(inputStream, Paths.get(storageLocation.toUri()).resolve(filename),
                     StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {
-            throw new StorageException("Failed to save the file " + originalFilename);
+        } catch (IOException e) {
+            throw new StorageException("Failed to save the file " + originalFilename, e);
         }
         return filename;
     }
@@ -61,7 +61,7 @@ public class FileSystemStorageService implements StorageService  {
                     .filter(path -> !path.equals(Paths.get(storageLocation.toUri())))
                     .map(path -> path.getFileName().toString());
         } catch (IOException e) {
-            throw new StorageException("Could not load the files!");
+            throw new StorageException("Could not load the files!", e);
         }
     }
 
@@ -88,12 +88,17 @@ public class FileSystemStorageService implements StorageService  {
     public void deleteAll() {
         File directory = storageLocation.toFile();
         File[] files = directory.listFiles();
-        if (files != null) Arrays.stream(files)
-                .filter(File::isFile)
-                .filter(file -> !file.delete())
-                .forEach(file -> {
-                    throw new StorageException("Could not delete file: " + file.getName());
-                });
+        if (files != null) {
+            Arrays.stream(files)
+                    .filter(File::isFile)
+                    .forEach(file -> {
+                        try {
+                            Files.delete(file.toPath());
+                        } catch (IOException e) {
+                            throw new StorageException("Could not delete file: " + file.getName(), e);
+                        }
+                    });
+        }
     }
 
     @Override
@@ -102,7 +107,7 @@ public class FileSystemStorageService implements StorageService  {
         try {
             Files.delete(filePath);
         } catch (IOException e) {
-            throw new StorageException("Could not delete file: " + filePath);
+            throw new StorageException("Could not delete file: " + filePath, e);
         }
     }
 }
