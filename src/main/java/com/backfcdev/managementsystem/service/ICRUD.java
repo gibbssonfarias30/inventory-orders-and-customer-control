@@ -4,12 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
-public interface ICRUD<T, RQ, RS, ID> {
+public interface ICRUD<T, R, S, ID> {
 
-    Page<RS> findAll(Pageable pageable);
-    RS findById(ID id);
-    RS save(RQ request);
-    RS update(ID id, RQ request);
+    Page<S> findAll(Pageable pageable);
+    S findById(ID id);
+    S save(R request);
+    S update(ID id, R request);
     void delete(ID id);
 }
 
