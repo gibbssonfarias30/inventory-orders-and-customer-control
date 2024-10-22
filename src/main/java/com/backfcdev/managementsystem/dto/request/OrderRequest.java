@@ -1,6 +1,5 @@
 package com.backfcdev.managementsystem.dto.request;
 
-import com.backfcdev.managementsystem.dto.response.OrderDetailResponse;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,5 @@
 package com.backfcdev.managementsystem.dto.request;
 
-import com.backfcdev.managementsystem.dto.response.CategoryResponse;
 import lombok.Getter;
 import lombok.Setter;
 

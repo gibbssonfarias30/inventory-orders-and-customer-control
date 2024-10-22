@@ -1,10 +1,6 @@
 package com.backfcdev.managementsystem.dto.request;
 
 import com.backfcdev.managementsystem.dto.response.OrderResponse;
-import com.backfcdev.managementsystem.model.Order;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
