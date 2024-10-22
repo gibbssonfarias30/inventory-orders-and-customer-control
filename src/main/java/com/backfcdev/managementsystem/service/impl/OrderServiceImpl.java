@@ -83,4 +83,53 @@ public class OrderServiceImpl extends CRUDImpl<Order, OrderRequest, OrderRespons
 
         return orderMapper.convertToResponse(savedOrder);
     }
+
+
+    @Transactional
+    @Override
+    public OrderResponse update(Integer id, OrderRequest request) {
+        Order existingOrder = orderRepository.findById(id)
+                .orElseThrow(ModelNotFoundException::new);
+
+        existingOrder.getOrderDetails().forEach(existingDetail -> {
+            Product product = existingDetail.getProduct();
+            int revertedStock = product.getStock() + existingDetail.getAmount();
+            product.setStock(revertedStock);
+            product.setSalesQuantity(product.getSalesQuantity() - existingDetail.getAmount());
+            productRepository.save(product);
+        });
+
+        existingOrder.getOrderDetails().clear();
+
+        Client client = clientRepository.findById(request.getClientId())
+                .orElseThrow(ModelNotFoundException::new);
+        existingOrder.setClient(client);
+
+        request.getOrderDetails().forEach(detailRequest -> {
+            Product product = productRepository.findById(detailRequest.getProductId())
+                    .orElseThrow(ModelNotFoundException::new);
+
+            int stock = product.getStock();
+            int amountOrder = detailRequest.getAmount();
+
+            if (amountOrder > stock) {
+                throw new InsufficientStockException();
+            }
+
+            product.setStock(stock - amountOrder);
+            product.setSalesQuantity(product.getSalesQuantity() + amountOrder);
+            productRepository.save(product);
+
+            OrderDetail orderDetail = OrderDetail.builder()
+                    .product(product)
+                    .price(detailRequest.getPrice())
+                    .amount(amountOrder)
+                    .build();
+
+            existingOrder.addOrderDetail(orderDetail);
+        });
+        Order updatedOrder = orderRepository.save(existingOrder);
+
+        return orderMapper.convertToResponse(updatedOrder);
+    }
 }
