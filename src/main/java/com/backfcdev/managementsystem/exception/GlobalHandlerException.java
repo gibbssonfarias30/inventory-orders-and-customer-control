@@ -15,12 +15,14 @@ import static org.springframework.http.HttpStatus.*;
 @RestControllerAdvice
 public class GlobalHandlerException {
 
+    private static final String TIMESTAMP = "timestamp";
+
     @ExceptionHandler(ModelNotFoundException.class)
     ProblemDetail handleModelNotFoundException(ModelNotFoundException ex){
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(NOT_FOUND, ex.getMessage());
         problemDetail.setTitle("Not Found");
         problemDetail.setType(URI.create("/not-found"));
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty(TIMESTAMP, Instant.now());
         return problemDetail;
     }
 
@@ -29,7 +31,7 @@ public class GlobalHandlerException {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(EXPECTATION_FAILED, ex.getMessage());
         problemDetail.setTitle("Expectation Failed");
         problemDetail.setType(URI.create("/expectation-failed"));
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty(TIMESTAMP, Instant.now());
         return problemDetail;
     }
 
@@ -38,7 +40,7 @@ public class GlobalHandlerException {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(NOT_FOUND, ex.getMessage());
         problemDetail.setTitle("Not Found");
         problemDetail.setType(URI.create("/not-found"));
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty(TIMESTAMP, Instant.now());
         return problemDetail;
     }
 
@@ -48,7 +50,7 @@ public class GlobalHandlerException {
         problemDetail.setTitle("Conflict");
         problemDetail.setDetail("There is not enough stock for this product");
         problemDetail.setType(URI.create("/conflict"));
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty(TIMESTAMP, Instant.now());
         return problemDetail;
     }
 }
