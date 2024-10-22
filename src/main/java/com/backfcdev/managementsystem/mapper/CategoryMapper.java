@@ -20,13 +20,10 @@ public class CategoryMapper implements IMapper<Category, CategoryRequest, Catego
 
     private void configureMappings() {
         modelMapper.typeMap(CategoryRequest.class, Category.class)
-                .addMappings(mapper -> {
-                    mapper.skip(Category::setId);
-                });
+                .addMappings(mapper -> mapper.skip(Category::setId));
 
-        modelMapper.typeMap(Category.class, CategoryResponse.class).addMappings(mapper -> {
-            mapper.map(Category::getId, CategoryResponse::setId);
-        });
+        modelMapper.typeMap(Category.class, CategoryResponse.class)
+                .addMappings(mapper -> mapper.map(Category::getId, CategoryResponse::setId));
     }
 
     @Override
