@@ -25,12 +25,12 @@ public class OrderMapper implements IMapper<Order, OrderRequest, OrderResponse>{
     private void configureMappings() {
         modelMapper.typeMap(OrderRequest.class, Order.class).addMappings(mapper -> {
             mapper.skip(Order::setId);
-            mapper.skip(Order::setClient);
+            mapper.skip(Order::setUser);
             mapper.skip(Order::setOrderDetails);
         });
 
         modelMapper.typeMap(Order.class, OrderResponse.class).addMappings(mapper -> {
-            mapper.map(Order::getClient, OrderResponse::setClientResponse);
+            mapper.map(Order::getUser, OrderResponse::setUserResponse);
             mapper.map(Order::getId, OrderResponse::setId);
             mapper.map(Order::getOrderDetails, OrderResponse::setOrderDetails);
         });
