@@ -1,14 +1,15 @@
 package com.backfcdev.managementsystem.dto.request;
 
-import com.backfcdev.managementsystem.dto.response.OrderResponse;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
+@Data
 @Getter
 @Setter
-public class ClientRequest {
+public class UserRequest {
 
     private String name;
 
@@ -16,9 +17,13 @@ public class ClientRequest {
 
     private String email;
 
+    private String rolId;
+
+    private String password;
+
     private String address;
 
     private String phone;
 
-    private List<OrderResponse> orders;
+    private List<OrderRequest> orders;
 }
