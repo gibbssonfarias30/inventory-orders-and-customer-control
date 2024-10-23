@@ -17,5 +17,5 @@ public class ProductRequest {
 
     private int salesQuantity;
 
-    private Integer categoryId;
+    private Long categoryId;
 }

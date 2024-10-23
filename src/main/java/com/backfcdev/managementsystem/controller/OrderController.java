@@ -28,7 +28,7 @@ public class OrderController {
 
 
     @GetMapping
-    ResponseEntity<Page<OrderResponse>> findAll(@PageableDefault(size = 5, sort = "client")
+    ResponseEntity<Page<OrderResponse>> findAll(@PageableDefault(size = 5, sort = "user")
                                                 Pageable pageable){
         return ResponseEntity.ok(orderService.findAll(pageable));
     }
@@ -43,13 +43,13 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<OrderResponse> findById(@PathVariable Integer id){
+    ResponseEntity<OrderResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok(orderService.findById(id));
     }
 
     // Hateoas - level 3 Richardson
     @GetMapping("/hateoas/{id}")
-    EntityModel<OrderResponse> findByIdHateoas(@PathVariable Integer id){
+    EntityModel<OrderResponse> findByIdHateoas(@PathVariable Long id){
         EntityModel<OrderResponse> resource = EntityModel.of(orderService.findById(id));
         WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).findById(id));
         resource.add(link.withRel("order-info"));
@@ -57,12 +57,12 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<OrderResponse> update(@PathVariable Integer id, @RequestBody OrderRequest orderRequest){
+    ResponseEntity<OrderResponse> update(@PathVariable Long id, @RequestBody OrderRequest orderRequest){
         return ResponseEntity.ok(orderService.update(id, orderRequest));
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> delete(@PathVariable Integer id){
+    ResponseEntity<Void> delete(@PathVariable Long id){
         orderService.delete(id);
         return ResponseEntity.noContent().build();
     }

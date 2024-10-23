@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class ProductServiceImpl extends CRUDImpl<Product, ProductRequest, ProductResponse, Integer> implements IProductService {
+public class ProductServiceImpl extends CRUDImpl<Product, ProductRequest, ProductResponse, Long> implements IProductService {
 
     private final IProductRepository productRepository;
     private final ICategoryRepository categoryRepository;
@@ -30,7 +30,7 @@ public class ProductServiceImpl extends CRUDImpl<Product, ProductRequest, Produc
 
 
     @Override
-    protected IGenericRepository<Product, Integer> repository() {
+    protected IGenericRepository<Product, Long> repository() {
         return productRepository;
     }
 

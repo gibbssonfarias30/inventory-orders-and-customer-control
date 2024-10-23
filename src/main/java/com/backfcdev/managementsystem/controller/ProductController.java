@@ -53,13 +53,13 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ProductResponse> findById(@PathVariable Integer id){
+    ResponseEntity<ProductResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok(productService.findById(id));
     }
 
     // Hateoas - level 3 Richardson
     @GetMapping("/hateoas/{id}")
-    EntityModel<ProductResponse> findByIdHateoas(@PathVariable Integer id) {
+    EntityModel<ProductResponse> findByIdHateoas(@PathVariable Long id) {
         EntityModel<ProductResponse> resource = EntityModel.of(productService.findById(id));
         WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).findById(id));
         resource.add(link.withRel("product-info"));
@@ -67,7 +67,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<ProductResponse> update(@PathVariable Integer id, @RequestBody ProductRequest productRequest) {
+    ResponseEntity<ProductResponse> update(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
         return ResponseEntity.ok(productService.update(id, productRequest));
     }
 
@@ -82,7 +82,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> delete(@PathVariable Integer id ){
+    ResponseEntity<Void> delete(@PathVariable Long id ){
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }

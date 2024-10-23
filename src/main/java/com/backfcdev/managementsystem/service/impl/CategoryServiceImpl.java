@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class CategoryServiceImpl extends CRUDImpl<Category, CategoryRequest, CategoryResponse, Integer> implements ICategoryService {
+public class CategoryServiceImpl extends CRUDImpl<Category, CategoryRequest, CategoryResponse, Long> implements ICategoryService {
 
     private final ICategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
 
     @Override
-    protected IGenericRepository<Category, Integer> repository() {
+    protected IGenericRepository<Category, Long> repository() {
         return categoryRepository;
     }
 

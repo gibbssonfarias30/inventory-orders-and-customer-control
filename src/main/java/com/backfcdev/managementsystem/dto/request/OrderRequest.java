@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 public class OrderRequest {
 
-    private Integer clientId;
+    private Long userId;
     private List<OrderDetailRequest> orderDetails;
 }

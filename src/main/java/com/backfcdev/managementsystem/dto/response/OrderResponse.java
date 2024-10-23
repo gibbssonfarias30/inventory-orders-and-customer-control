@@ -14,10 +14,10 @@ import java.util.List;
 @Builder
 public class OrderResponse {
 
-    private Integer id;
+    private Long id;
 
     @JsonBackReference
-    private ClientResponse clientResponse;
+    private UserResponse userResponse;
 
     @JsonManagedReference
     private List<OrderDetailResponse> orderDetails;

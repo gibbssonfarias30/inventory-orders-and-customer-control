@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class CategoryResponse {
 
-    private Integer id;
+    private Long id;
 
     private String name;
 

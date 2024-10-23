@@ -41,13 +41,13 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<CategoryResponse> findById(@PathVariable Integer id) {
+    ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.findById(id));
     }
 
     // Hateoas - level 3 Richardson
     @GetMapping("/hateoas/{id}")
-    EntityModel<CategoryResponse> findByIdHateoas(@PathVariable Integer id) {
+    EntityModel<CategoryResponse> findByIdHateoas(@PathVariable Long id) {
         EntityModel<CategoryResponse> resource = EntityModel.of(categoryService.findById(id));
         WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).findById(id));
         resource.add(link.withRel("category-info"));
@@ -55,12 +55,12 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<CategoryResponse> update(@PathVariable Integer id, @RequestBody CategoryRequest categoryRequest) {
+    ResponseEntity<CategoryResponse> update(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
         return ResponseEntity.ok(categoryService.update(id, categoryRequest));
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> delete(@PathVariable Integer id) {
+    ResponseEntity<Void> delete(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }

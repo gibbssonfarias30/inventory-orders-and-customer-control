@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class OrderDetailResponse {
 
-    private Integer id;
+    private Long id;
 
     @JsonBackReference
     private ProductResponse product;
