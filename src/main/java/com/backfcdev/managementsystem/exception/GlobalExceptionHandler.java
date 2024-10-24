@@ -13,7 +13,7 @@ import static org.springframework.http.HttpStatus.*;
 
 
 @RestControllerAdvice
-public class GlobalHandlerException {
+public class GlobalExceptionHandler {
 
     private static final String TIMESTAMP = "timestamp";
 
