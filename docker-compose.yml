@@ -1,0 +1,14 @@
+services:
+  myDB:
+    image: postgres:latest
+    container_name: inventory_orders_and_customer_control
+    restart: always
+    ports:
+      - 5432:5432
+
+    environment:
+      - POSTGRES_USER=gibbssonfarias
+      - POSTGRES_PASSWORD=gibb246
+      - POSTGRES_DB=inventory_orders_and_customer_control
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
